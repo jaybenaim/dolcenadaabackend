@@ -5,10 +5,11 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const indexRouter = require("./routes/index");
+const users = require("./routes/api/users");
 const cors = require("cors");
 const CONSTANTS = require("./constants");
 const { PORT: port } = CONSTANTS;
+const passport = require("passport");
 
 require("dotenv").config();
 
@@ -66,7 +67,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(express.static(path.resolve(__dirname, "build")));
 
-app.use("/api", indexRouter);
+// Passport middleware
+app.use(passport.initialize());
+// Passport config
+require("./config/passport")(passport);
+
+// Routes
+app.use("/api/users", users);
+
 app.get("/", (req, res) => {
   res.send("/home");
 });
