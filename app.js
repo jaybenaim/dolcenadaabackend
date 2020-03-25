@@ -7,6 +7,8 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const indexRouter = require("./routes/index");
 const cors = require("cors");
+const CONSTANTS = require("./constants");
+const { PORT: port } = CONSTANTS;
 
 require("dotenv").config();
 
@@ -85,11 +87,16 @@ if (process.env.NODE_ENV === "production") {
   });
 } else {
   // Log stack trace of error message while in development
+
   app.use((err, req, res, next) => {
     res.status(err.status || 500);
     console.log(err);
     res.send(err.message);
   });
 }
+
+app.listen(port, () => {
+  console.log(`App running on port ${port}.`);
+});
 
 module.exports = app;
