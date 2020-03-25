@@ -80,14 +80,14 @@ router.post("/login", (req, res) => {
           (err, token) => {
             res.json({
               success: true,
-              token: "Bearer " + token
+              user: payload
             });
           }
         );
       } else {
         return res
           .status(400)
-          .json({ passwordincorrect: "Password incorrect" });
+          .json({ sucess: false, passwordincorrect: "Password incorrect" });
       }
     });
   });
