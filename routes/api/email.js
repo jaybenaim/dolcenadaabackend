@@ -16,15 +16,15 @@ router.post("/", (req, res, next) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  const { name, email, message, html } = req.body;
-  let defaultHtml = `<div>${message} <br /> from ${name} - ${email}</div>`;
+  const { name, email, html, message } = req.body;
+  // let defaultHtml = `<div>${message} <br /> from ${name} - ${email}</div>`;
   let subject = `Order From - ${name}`;
   const msg = {
     to: "benaimjacob@gmail.com",
     from: email,
     subject,
-    text: message,
-    html: html || defaultHtml
+    message,
+    html
   };
   sgMail
     .send(msg)
@@ -32,9 +32,10 @@ router.post("/", (req, res, next) => {
       console.log("Success");
     })
     .catch(err => {
-      console.log("Error", err);
+      console.log(err);
+      return res.status(400).send(err);
     });
-  res.send({ name, email, message });
+  res.send({ name, email, html });
 });
 
 module.exports = router;
