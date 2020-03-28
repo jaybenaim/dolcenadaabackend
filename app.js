@@ -6,12 +6,15 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const users = require("./routes/api/users");
+const email = require("./routes/api/email");
 const cors = require("cors");
 const CONSTANTS = require("./constants");
 const { PORT: port } = CONSTANTS;
 const passport = require("passport");
-
+const sgMail = require("@sendgrid/mail");
 require("dotenv").config();
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const app = express();
 
@@ -74,7 +77,7 @@ require("./config/passport")(passport);
 
 // Routes
 app.use("/api/users", users);
-
+app.use("/api/email", email);
 app.get("/", (req, res) => {
   res.send("/home");
 });
