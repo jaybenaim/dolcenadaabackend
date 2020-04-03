@@ -6,6 +6,7 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const users = require("./routes/api/users");
+const products = require("./routes/api/products");
 const email = require("./routes/api/email");
 const cors = require("cors");
 const CONSTANTS = require("./constants");
@@ -62,7 +63,7 @@ const corsOptions = {
   }
 };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -78,6 +79,7 @@ require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
 app.use("/api/email", email);
+app.use("/api/products", products);
 app.get("/", (req, res) => {
   res.send("/home");
 });
