@@ -16,9 +16,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { body } = req;
-
-  let newProduct = new Product(body);
+  const newProduct = new Product(res.body);
   newProduct
     .save()
     .then(product => {
@@ -28,6 +26,24 @@ router.post("/", (req, res) => {
       return res.status(500).send(err);
     });
 });
+
+router.post("/createProductList", (req, res) => {
+  const { body } = req;
+
+  const newProducts = body.map(product => {
+    let newProducts = new Product(product);
+    newProducts
+      .save()
+      .then(product => {
+        return res.status(200).send(product);
+      })
+      .catch(err => {
+        return res.status(500).send(err);
+      });
+  });
+  return res.status(200).send(newProducts);
+});
+
 // GET BY ID
 router.get("/:id", (req, res) => {
   Product.findOne({ _id: req.params.id }, (err, product) => {
