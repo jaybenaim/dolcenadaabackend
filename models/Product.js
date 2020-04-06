@@ -23,8 +23,26 @@ const ProductSchema = new Schema({
     required: true
   },
   description: {
-    type: String,
-    required: true
+    dough: {
+      type: String,
+      required: false
+    },
+    mixin: {
+      type: String,
+      required: false
+    },
+    stuffing: {
+      type: String,
+      required: false
+    },
+    topping: {
+      type: String,
+      required: false
+    },
+    default: {
+      type: String,
+      required: false
+    }
   }
 });
 
