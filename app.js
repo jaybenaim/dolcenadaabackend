@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const index = require("./routes");
 const users = require("./routes/api/users");
 const products = require("./routes/api/products");
 const email = require("./routes/api/email");
@@ -78,12 +79,10 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 
 // Routes
+app.use("/", index);
 app.use("/api/users", users);
 app.use("/api/email", email);
 app.use("/api/products", products);
-app.get("/", (req, res) => {
-  res.send("/home");
-});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
