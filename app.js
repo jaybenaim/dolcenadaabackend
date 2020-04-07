@@ -79,7 +79,7 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 
 // Routes
-app.use("/", index);
+app.use("/api", index);
 app.use("/api/users", users);
 app.use("/api/email", email);
 app.use("/api/products", products);
