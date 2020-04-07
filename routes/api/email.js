@@ -17,10 +17,11 @@ router.post("/", (req, res, next) => {
     return res.status(400).json(errors);
   }
   const { name, email, html, message } = req.body;
+  // for contact form
   // let defaultHtml = `<div>${message} <br /> from ${name} - ${email}</div>`;
   let subject = `Order From - ${name}`;
   const msg = {
-    to: "benaimjacob@gmail.com",
+    to: "dolcenadaa@gmail.com",
     from: email,
     subject,
     message,

@@ -46,6 +46,7 @@ mongoose
 
 // Cors
 const whitelist = [
+  "https://dolcenada.ca",
   "https://jaybenaim.github.io",
   "http://localhost:3000",
   "http://localhost:5000",
