@@ -18,6 +18,7 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   const newProduct = new Product(res.body);
+  console.log(res.body);
   newProduct
     .save()
     .then(product => {
@@ -42,7 +43,7 @@ router.post("/createProductList", (req, res) => {
         return res.status(500).send(err);
       });
   });
-  return res.status(200).send(newProducts);
+  // return res.status(200).send(newProducts);
 });
 
 // GET BY ID
