@@ -23,7 +23,7 @@ const app = express();
 // Bodyparser middleware
 app.use(
   bodyParser.urlencoded({
-    extended: false
+    extended: false,
   })
 );
 app.use(bodyParser.json());
@@ -37,13 +37,13 @@ var dbOptions = {
   useNewUrlParser: true,
   useFindAndModify: false,
   useUnifiedTopology: false,
-  useCreateIndex: true
+  useCreateIndex: true,
 };
 // Connect to MongoDB
 mongoose
   .connect(db, dbOptions)
   .then(() => console.log("MongoDB successfully connected"))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 // Cors
 const whitelist = [
@@ -51,18 +51,18 @@ const whitelist = [
   "https://jaybenaim.github.io",
   "http://localhost:3000",
   "http://localhost:5000",
-  "http://localhost:5000"
+  "http://localhost:5000",
 ];
 
 const corsOptions = {
   credentials: true,
-  origin: function(origin, callback) {
+  origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
-  }
+  },
 };
 
 app.use(cors(corsOptions));

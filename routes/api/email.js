@@ -11,10 +11,10 @@ router.get("/", (req, res) => {
   res.send("test");
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", (req, response, next) => {
   const { errors, isValid } = validateEmail(req.body);
   if (!isValid) {
-    return res.status(400).json(errors);
+    return response.status(400).json(errors);
   }
   const { name, email, html, message } = req.body;
   // for contact form
@@ -25,18 +25,18 @@ router.post("/", (req, res, next) => {
     from: email,
     subject,
     message,
-    html
+    html,
   };
   sgMail
     .send(msg)
-    .then(res => {
+    .then((res) => {
       console.log("Success");
+      return response.send({ name, email, html });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
-      return res.status(400).send(err);
+      return response.status(400).send(err);
     });
-  res.send({ name, email, html });
 });
 
 module.exports = router;
