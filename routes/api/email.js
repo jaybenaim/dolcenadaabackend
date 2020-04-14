@@ -17,20 +17,20 @@ router.post("/", (req, response, next) => {
     return response.status(400).json(errors);
   }
   const { name, email, html, message } = req.body;
-  // for contact form
-  // let defaultHtml = `<div>${message} <br /> from ${name} - ${email}</div>`;
+
   let subject = `Order From - ${name}`;
-  const msg = {
-    to: "dolcenadaa@gmail.com",
+  const data = {
+    to: "benaimjacob@gmail.com",
     from: email,
     subject,
     message,
     html,
   };
   sgMail
-    .send(msg)
+    .send(data)
     .then((res) => {
       console.log("Success");
+      sendConfirmationToClient(email, html);
       return response.send({ name, email, html });
     })
     .catch((err) => {
@@ -39,4 +39,22 @@ router.post("/", (req, response, next) => {
     });
 });
 
+const sendConfirmationToClient = (email, html) => {
+  const confirmationData = {
+    to: email,
+    from: "dolcenadaa@gmail.com",
+    subject: "Order Confirmation - Dolce Nada",
+    message: "Order Confirmed",
+    html,
+  };
+
+  sgMail
+    .send(confirmationData)
+    .then((res) => {
+      console.log("Confirmation sent to client");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 module.exports = router;
