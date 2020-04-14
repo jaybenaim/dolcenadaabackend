@@ -20,7 +20,7 @@ router.post("/", (req, response, next) => {
 
   let subject = `Order From - ${name}`;
   const data = {
-    to: "benaimjacob@gmail.com",
+    to: "dolcenadaa@gmail.com",
     from: email,
     subject,
     message,
