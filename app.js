@@ -18,6 +18,8 @@ const AdminBro = require("admin-bro");
 const AdminBroExpressjs = require("admin-bro-expressjs");
 const adminBro = require("./config/adminBro");
 const bcrypt = require("bcryptjs");
+const withAuth = require("./Middleware/auth");
+
 const app = express();
 
 require("dotenv").config();
@@ -86,7 +88,7 @@ const corsOptions = {
   },
 };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.use(logger("dev"));
 app.use(express.json());
