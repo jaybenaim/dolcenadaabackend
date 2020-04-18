@@ -8,23 +8,22 @@ require("dotenv").config();
 router.get("/", (req, res) => {
   Product.find()
     .select("-__v")
-    .then(product => {
+    .then((product) => {
       return res.status(200).send(product);
     })
-    .catch(err => {
+    .catch((err) => {
       return res.status(500).send(err);
     });
 });
 
 router.post("/", (req, res) => {
   const newProduct = new Product(res.body);
-  console.log(res.body);
   newProduct
     .save()
-    .then(product => {
+    .then((product) => {
       return res.status(200).send(product);
     })
-    .catch(err => {
+    .catch((err) => {
       return res.status(500).send(err);
     });
 });
@@ -32,14 +31,14 @@ router.post("/", (req, res) => {
 router.post("/createProductList", (req, res) => {
   const { body } = req;
 
-  const newProducts = body.map(product => {
+  const newProducts = body.map((product) => {
     let newProducts = new Product(product);
     newProducts
       .save()
-      .then(product => {
+      .then((product) => {
         return res.status(200).send(product);
       })
-      .catch(err => {
+      .catch((err) => {
         return res.status(500).send(err);
       });
   });
@@ -50,10 +49,10 @@ router.post("/createProductList", (req, res) => {
 router.get("/:id", (req, res) => {
   Product.findOne({ _id: req.params.id })
     .select("-__v")
-    .then(product => {
+    .then((product) => {
       return res.status(200).send(product);
     })
-    .catch(err => {
+    .catch((err) => {
       return res.status(500).send(err);
     });
 });
@@ -68,10 +67,10 @@ router.get("/get/cookies", (req, res) => {
     query = skuQuery;
   }
   Product.find(query)
-    .then(cookies => {
+    .then((cookies) => {
       return res.status(200).send(cookies);
     })
-    .catch(err => {
+    .catch((err) => {
       return res.status(500).send(err);
     });
 });
@@ -86,10 +85,10 @@ router.get("/get/scones", (req, res) => {
     query = skuQuery;
   }
   Product.find(query)
-    .then(scones => {
+    .then((scones) => {
       return res.status(200).send(scones);
     })
-    .catch(err => {
+    .catch((err) => {
       return res.status(500).send(err);
     });
 });
@@ -104,10 +103,10 @@ router.get("/get/biscotti", (req, res) => {
     query = skuQuery;
   }
   Product.find(query)
-    .then(biscotti => {
+    .then((biscotti) => {
       return res.status(200).send(biscotti);
     })
-    .catch(err => {
+    .catch((err) => {
       return res.status(500).send(err);
     });
 });
@@ -125,7 +124,7 @@ router.patch("/:id", (req, res) => {
     Product.findByIdAndRemove(req.params.id, (err, product) => {
       if (err) return res.status(500).send(err);
       const response = {
-        message: "Product deleted successfully"
+        message: "Product deleted successfully",
       };
       return res.status(200).send(response);
     });
