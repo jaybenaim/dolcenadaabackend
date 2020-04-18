@@ -14,11 +14,32 @@ const CONSTANTS = require("./constants");
 const { PORT: port } = CONSTANTS;
 const passport = require("passport");
 const sgMail = require("@sendgrid/mail");
+const AdminBro = require("admin-bro");
+const AdminBroExpressjs = require("admin-bro-expressjs");
+const adminBro = require("./config/adminBro");
+const bcrypt = require("bcryptjs");
+const app = express();
+
 require("dotenv").config();
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const app = express();
+// Build and use a router which will handle all AdminBro routes
+const adminRouter = AdminBroExpressjs.buildAuthenticatedRouter(adminBro, {
+  authenticate: async (email, password) => {
+    const user = await User.findOne({ email });
+    if (user.role === "admin") {
+      const matched = await bcrypt.compare(password, user.password);
+      if (matched) {
+        return user;
+      }
+    }
+    return false;
+  },
+  cookiePassword: process.env.SECRET,
+});
+
+app.use(adminBro.options.rootPath, adminRouter);
 
 // Bodyparser middleware
 app.use(
@@ -65,7 +86,7 @@ const corsOptions = {
   },
 };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.use(logger("dev"));
 app.use(express.json());

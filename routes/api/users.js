@@ -9,6 +9,11 @@ const validateLoginInput = require("../../validation/login");
 // Load User model
 const User = require("../../models/User");
 
+router.get("/", (req, res) => {
+  User.find()
+    .then((user) => res.status(200).send(user))
+    .catch((err) => res.status(500).send(err));
+});
 // @route POST api/users/register
 // @desc Register user
 // @access Public
@@ -27,6 +32,7 @@ router.post("/register", (req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
+        role: "restricted",
       });
       // Hash password before saving in database
       bcrypt.genSalt(10, (err, salt) => {

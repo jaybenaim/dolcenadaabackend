@@ -4,46 +4,46 @@ const Schema = mongoose.Schema;
 const ProductSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   sku: {
     type: String,
-    required: true
+    required: true,
   },
   price: {
     type: Number,
-    required: true
+    required: true,
   },
   image: {
     type: String,
-    required: true
+    required: true,
   },
   class: {
     type: String,
-    required: true
+    required: true,
   },
   description: {
     dough: {
       type: String,
-      required: false
+      required: false,
     },
     mixin: {
       type: String,
-      required: false
+      required: false,
     },
     stuffing: {
       type: String,
-      required: false
+      required: false,
     },
     topping: {
       type: String,
-      required: false
+      required: false,
     },
     default: {
       type: String,
-      required: false
-    }
-  }
+      required: false,
+    },
+  },
 });
 
 module.exports = Product = mongoose.model("products", ProductSchema);
