@@ -8,6 +8,7 @@ const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 // Load User model
 const User = require("../../models/User");
+const withAuth = require("../../Middleware/auth");
 
 router.get("/", (req, res) => {
   User.find()
@@ -84,7 +85,6 @@ router.post("/login", (req, res) => {
             expiresIn: 31556926, // 1 year in seconds
           },
           (err, token) => {
-            console.log(token);
             res.json({
               success: true,
               token: "Bearer " + token,

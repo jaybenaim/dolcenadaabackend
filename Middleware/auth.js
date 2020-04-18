@@ -1,20 +1,22 @@
-const jwt = require("jsonwebtoken");
+// const User = require("../models/User");
+// const bcrypt = require("bcryptjs");
 
-const withAuth = (req, res, next) => {
-  const token = req.cookies.token;
-  console.log(req.body);
-  if (!token) {
-    res.status(401).send("Unauthorized: No token provided");
-  } else {
-    jwt.verify(token, process.env.SECRET, (err, decoded) => {
-      if (err) {
-        console.log(err);
-        res.status(401).send("Unauthorized: Invalid token");
-      } else {
-        req.email = decoded.email;
-        next();
-      }
-    });
-  }
-};
-module.exports = withAuth;
+// const withAuth = (req, res, next) => {
+//   const { email, password } = req.body;
+//   const user = User.findOne({ email });
+//   //   user not found
+//   console.log(user.password);
+//   if (user) {
+//     bcrypt
+//       .compare(password, user.password)
+//       .then((isMatch) => {
+//         if (isMatch) {
+//           next();
+//         }
+//       })
+//       .catch((err) => {
+//         return res.status(401).send("Unauthorized: Invalid token");
+//       });
+//   }
+// };
+// module.exports = withAuth;
