@@ -1,9 +1,29 @@
 const express = require("express");
 const router = express.Router();
+const escapeRegex = require("../../helpers/regex-escape");
 
 const Product = require("../../models/Product");
 
 require("dotenv").config();
+
+// Pagination
+router.get("/search/:page", async (req, res, next) => {
+  const resultsPerPage = 5;
+  const page = req.params.page >= 1 ? req.params.page : 1;
+  const query = req.query.search;
+
+  await Product.find({ sku: query })
+    .select("name sku price image class, description ")
+    .sort({ name: "asc" })
+    .limit(resultsPerPage)
+    .skip(resultsPerPage * page)
+    .then((results) => {
+      return res.status(200).send(results);
+    })
+    .catch((err) => {
+      return res.status(500).send(err);
+    });
+});
 
 router.get("/", (req, res) => {
   Product.find()
