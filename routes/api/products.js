@@ -7,12 +7,26 @@ const Product = require("../../models/Product");
 require("dotenv").config();
 
 // Pagination
-router.get("/search/:page", async (req, res, next) => {
+router.get("/search/:page", (req, res, next) => {
   const resultsPerPage = 5;
-  const page = req.params.page >= 1 ? req.params.page : 1;
-  const query = req.query.search;
+  const page = req.params.page >= 0 ? req.params.page : 0;
+  let filter = req.query.filter ? req.query.filter : "name";
 
-  await Product.find({ sku: query })
+  let querySearch = req.query.search;
+  const regex = new RegExp(`.*${querySearch}.*`, "ig");
+
+  let key = `description.${filter}`;
+  let query;
+  if (filter === "description") {
+    filter = "description.default";
+  } else {
+    filter = key;
+  }
+
+  query = { [filter]: { $regex: regex } };
+
+  console.log(query);
+  Product.find(query)
     .select("name sku price image class, description ")
     .sort({ name: "asc" })
     .limit(resultsPerPage)
