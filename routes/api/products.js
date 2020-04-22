@@ -25,7 +25,6 @@ router.get("/search/:page", (req, res, next) => {
 
   query = { [filter]: { $regex: regex } };
 
-  console.log(query);
   Product.find(query)
     .select("name sku price image class, description ")
     .sort({ name: "asc" })
