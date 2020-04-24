@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const escapeRegex = require("../../helpers/regex-escape");
-
+const multer = require("multer");
+const fs = require("fs");
 const Product = require("../../models/Product");
 
 require("dotenv").config();
@@ -14,14 +15,6 @@ router.get("/search/:page", (req, res, next) => {
 
   let querySearch = req.query.search;
   const regex = new RegExp(`.*${querySearch}.*`, "ig");
-
-  let key = `description.${filter}`;
-  let query;
-  if (filter === "description") {
-    filter = "description.default";
-  } else {
-    filter = key;
-  }
 
   query = { [filter]: { $regex: regex } };
 
@@ -49,8 +42,23 @@ router.get("/", (req, res) => {
     });
 });
 
+// Image uploader
+// SET STORAGE
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + "-" + Date.now());
+  },
+});
+
+const upload = multer({ storage: storage });
+
 router.post("/", (req, res) => {
-  const newProduct = new Product(res.body);
+  let newProduct = new Product(req.body);
+  newProduct.image.data = fs.readFileSync(req.body.files.userPhoto.path);
+  newProduct.image.contentType = "image/png";
   newProduct
     .save()
     .then((product) => {

@@ -19,6 +19,7 @@ const AdminBroExpressjs = require("admin-bro-expressjs");
 const adminBro = require("./config/adminBro");
 const bcrypt = require("bcryptjs");
 const withAuth = require("./Middleware/auth");
+const multer = require("multer");
 
 const app = express();
 
@@ -94,7 +95,22 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(express.static(path.resolve(__dirname, "build")));
+// image serving
+app.use(express.static("public"));
+app.use(express.static(path.resolve(__dirname, "build")));
+
+// // Image uploader
+// // SET STORAGE
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "uploads");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.fieldname + "-" + Date.now());
+//   },
+// });
+
+// const upload = multer({ storage: storage });
 
 // Passport middleware
 app.use(passport.initialize());

@@ -14,10 +14,7 @@ const ProductSchema = new Schema({
     type: Number,
     required: true,
   },
-  image: {
-    type: String,
-    required: true,
-  },
+  image: { data: Buffer, contentType: String },
   class: {
     type: String,
     required: true,
