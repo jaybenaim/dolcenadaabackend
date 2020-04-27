@@ -50,7 +50,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const newProduct = new Product(res.body);
+  const newProduct = new Product(req.body);
   newProduct
     .save()
     .then((product) => {
