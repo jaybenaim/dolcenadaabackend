@@ -20,7 +20,7 @@ router.post("/", (req, response, next) => {
 
   let subject = `Order From - ${name}`;
   const data = {
-    to: "dolcenadaa@gmail.com",
+    to: "benaimjacob@gmail.com",
     from: email,
     subject,
     message,
@@ -42,7 +42,7 @@ router.post("/", (req, response, next) => {
 const sendConfirmationToClient = (email, html) => {
   const confirmationData = {
     to: email,
-    from: "dolcenadaa@gmail.com",
+    from: "benaimjacob@gmail.com",
     subject: "Order Confirmation - Dolce Nada",
     message: "Order Confirmed",
     html,
